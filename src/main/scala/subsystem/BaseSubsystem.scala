@@ -36,8 +36,8 @@ abstract class BareSubsystemModuleImp[+L <: BareSubsystem](_outer: L) extends La
 }
 
 /** Base Subsystem class with no peripheral devices or ports added */
-abstract class BaseSubsystem(implicit p: Parameters) extends BareSubsystem 
-    with Attachable {
+abstract class BaseSubsystem(val location: HierarchicalLocation = InSubsystem)
+                            (implicit p: Parameters) extends BareSubsystem with Attachable {
 
   override val module: BaseSubsystemModuleImp[BaseSubsystem]
 
@@ -51,7 +51,6 @@ abstract class BaseSubsystem(implicit p: Parameters) extends BareSubsystem
 
   // Find the topology configuration for the TL buses located in this subsystem.
   // Calling these functions populates tlBusWrapperLocationMap and connects the locations to each other.
-  val location = HierarchicalLocation("InSubsystem")
   val topology = p(TLNetworkTopologyLocated(location.name))
   topology.foreach(_.instantiate(this))
   topology.foreach(_.connect(this))
