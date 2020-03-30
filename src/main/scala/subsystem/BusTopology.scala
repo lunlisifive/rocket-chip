@@ -72,7 +72,7 @@ case class CoherentBusTopologyParams(
 ) extends TLBusWrapperTopology(
   instantiations = (if (l2.nBanks == 0) Nil else List(
     (MBUS, mbus),
-    (L2, CoherenceManagerWrapperParams(sbus.blockBytes, sbus.beatBytes, L2.name)(l2.coherenceManager)))),
+    (L2, CoherenceManagerWrapperParams(sbus.blockBytes, sbus.beatBytes, l2.nBanks, L2.name)(l2.coherenceManager)))),
   connections = (if (l2.nBanks == 0) Nil else List(
     (SBUS, L2,   TLBusWrapperConnection.crossTo(NoCrossing)),
     (L2,   MBUS, TLBusWrapperConnection.crossTo(NoCrossing))
